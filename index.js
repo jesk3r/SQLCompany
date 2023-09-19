@@ -33,36 +33,43 @@ function init(){
 }
 
 function AskUserOptions(){
+    getDepartmentsList()
+    getEmployeesList()
+    getRolesList()
+
     inquirer.prompt(questions).then((response) => {
        
+        if(response.userAction === 'view all departments'){
+            showAllDepartments()
+        }
+
+        if(response.userAction === 'view all roles'){
+            showAllRoles()
+        }
+
+        if(response.userAction === 'view all employees'){
+            showAllEmployees()
+        }
 
     
         if(response.userAction !== 'quit'){
             q = true;
-            return AskUser();
+            return AskUserOptions();
         }
 
     })
 }
 
-function askUserAddDeparment(){
+async function UserAddDeparment(newData){
+    promisPool.query(`INSERT INTO Deparment (deparment_name) Values (${departmentName})`)
+}
+
+async function UserAddRole(NewData){
 
 }
 
-function askUserAddRole(){}
+async function UseraddEmployee(NewData){
 
-function addEmployee(){}
-
-data = [{
-    deparment_name: 'Tech'
-}]
-
-
-
-
-async function insertDeparment(departmentName){
-   promisPool.query(`INSERT INTO Deparment (deparment_name) Values (${departmentName})`)
-   
 }
 
 async function insertRole(roleTitle, roleSalary, deparmentID){
@@ -84,7 +91,8 @@ async function getDepartmentsList(){
 
         // console.log(DeparmentList)
 
-        showAllDepartments()
+        // showAllDepartments()
+        
     });
 }
 
@@ -94,8 +102,10 @@ async function getRolesList(){
         [data, schemea] = result;
         
         RoleList = data
-       
+    
         // console.log(RoleList)
+
+
      }
     )
 }
@@ -128,40 +138,31 @@ function showAllRoles(){
     console.log('id title           department      salary')
     console.log('-- -------------   -----------     -------')
     
-    console.log(RoleList)
+    // console.log(RoleList)
     
     RoleList.forEach((element) => {
-        console.log(`${element.role_id}  ${element.role_title}                         ${element.role_salary}`)
+        console.log(`${String(element.role_id).padEnd(2)} ${String(element.role_title).padEnd(16)}${ String((DeparmentList.find((ele) => ele.deparment_id === element.department_id)).deparment_name).padEnd(16) }${element.role_salary}`)
     })
 
-    
+    console.log('\n')
 }
 
 function showAllEmployees(){
     
+    // console.log( (RoleList.find((e) => e.role_id === 3)).role_salary)
 
-    [data, schemea] = result;
-
-   
-    console.log('id first_name last_name  title            department   salary  manager')
-    console.log('-- ---------- ---------  -------------    -----------  -------  --------')
+    console.log('id first_name last_name department   salary  manager')
+    console.log('-- ---------- --------- -----------  -------  --------')
 
 
     EmployeeList.forEach((element) => {
-        console.log(`${element.deparment_id}  ${element.deparment_name}`)
+        console.log(`${element.employee_id} ${element.employee_first_name.padEnd(11)} ${element.employee_last_name.padEnd(9)} ${ (RoleList.find((ele) => ele.role_id === element.role_id) ).role_salary.padEnd(11) }`)
     })
 
 }
 
-// insertTable()
 
-getDepartmentsList()
-getRolesList()
-getEmployeesList()
-
-// showAllDepartments()
-// showAllRoles()
-// showAllEmployees()
+AskUserOptions()
 
 console.log('zxcvzxcv')
 
