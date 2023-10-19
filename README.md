@@ -8,3 +8,5 @@ Whether you're a data analyst, a business intelligence professional, or a curiou
 
 # Vidoe Demo
 Video Submision: https://drive.google.com/file/d/1I6tmq3tHE7n3fJ3qwnCrirGYzgGJTxD5/view
+
+Github: https://github.com/jesk3r/SQLCompany/tree/main
